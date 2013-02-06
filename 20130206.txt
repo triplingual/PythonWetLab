@@ -1,0 +1,20 @@
+2.6.2013
+
+Using GitHub for our group: https://github.com/michellehudson/PythonWetLab
+
+GitHub tutorial, overview:
+
+We want to use this even though we're not all working on one "project." Go to the getting started, download GitHub for your operating system, and then follow the instructions. "Clone" the "pythonlab" repo to your machine. Then you can open files you're working on, make changes, and commit edits through the GitForOS on your machine. 
+
+Set up repository for your OWN exercises -- WetPythonLab is for whatever projects we wind up working on. 
+
+Text we're using: Zed Shaw's http://learnpythonthehardway.org/book/
+
+Trip setting up a Commons for us! 
+
+Let's use Lync to IM. Or if more non-Yale people join, we can Skype.
+
+Do setup now? Expect people to have done it by next week?
+
+Using 2X, migrate to 3 if necessary.
+
