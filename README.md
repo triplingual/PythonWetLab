@@ -1,5 +1,4 @@
 PythonWetLab
 ============
 
-Yale Librarians &amp; IT doing things with Python, yo.
-Trip RHYMES with hip!
+The Python Wet Lab idea is the product of a Twitter conversation at Code4LibNE about librarians and coding. The Python programming language is widely used in the sciences and digital humanities, including in ArcGIS, data refinement, and data visualization, and has vast potential as a tool for digital humanists. The goal of PWL is to learn and improve Python skills in a problem-based small group environment, with applications ranging from improved subject liaison and data librarian services to testing the PWL sessions as ways for individuals to learn and apply new technology skills. We plan to use available library data to frame our skill-building.
