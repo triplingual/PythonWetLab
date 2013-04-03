@@ -12,7 +12,8 @@ def get_bibids_from_xml(xml_body):
     id_re = re.compile('<input\s+value\="([^"]+)" type="hidden" name="pageIds">')
     match = id_re.search(xml_body)
     if match:
-        values = match.group( 1 ).split( "," )
+    	id_list = match.group( 1 ).strip( ',' )
+        values = id_list.split( "," )
     else:
         values = []
 
@@ -24,7 +25,9 @@ def get_bibids_from_xml(xml_body):
 # Works directly -->
 # orbis_url = "http://hdl.handle.net/10079/bibid/4916240"
 """
-Note that using orbis_url = "http://orbexpress.library.yale.edu/vwebv/holdingsInfo" and adding a payload parm of 	"bibid": "4916240" returns a page claiming that "The Orbis OPAC is unavailable . . ."
+Notes:
+Using orbis_url = "http://orbexpress.library.yale.edu/vwebv/holdingsInfo" and adding a payload parm of "bibid": "4916240" returns a page claiming that "The Orbis OPAC is unavailable . . ."
+I've left in the original searchArg of new+haven to show that this difference (removing the +) was crucial in actually returning results. My guess is that the requests library re-encoded the + as %2b so that Orbis thought it was looking for the phrase 'new+haven' rather than 'new haven'.
 """
 # Returning results of a search
 orbis_url = "http://orbexpress.library.yale.edu/vwebv/search"
@@ -32,24 +35,29 @@ orbis_url = "http://orbexpress.library.yale.edu/vwebv/search"
 # Construct GET query parameters
 #
 payload = {
-	"searchArg": "trainspotting",
-	"searchCode": "GKEY^*",
-	"limitTo": "none",
-	"recCount": "50",
-	"searchType": "1",
+#	"searchArg": "new+haven",
+	"searchArg1": "new haven",
+	"argType1": "phrase",
+	"searchCode1": "SKEY",
+	"combine2": "and",
+	"searchArg2": "",
+	"argType2": "all",
+	"searchCode2": "GKEY",
+	"combine3": "and",
+	"searchArg3": "",
+	"argType3": "all",
+	"searchCode3": "GKEY",
+	"year": "2012-2013",
+	"fromYear": "",
+	"toYear": "",
+	"location": "all",
+	"place": "all",
+	"type": "all",
+	"medium": "all",
+	"language": "all",
+	"recCount": "500",
+	"searchType": "2",
 	"page.search.search.button": "Search"
-#	"searchArg1": "New+Haven",
-#	"argType1": "phrase",
-#	"searchCode1": "SKEY",
-#	"year": "2012-2013",
-#	"location": "all",
-#	"place": "all",
-#	"type": "all",
-#	"medium": "all",
-#	"language": "all",
-#	"recCount": "50",
-#	"searchType": "2",
-#	"page.search.search.button": "Search"
 }
 
 response = requests.get( orbis_url, params=payload )
@@ -57,5 +65,12 @@ response = requests.get( orbis_url, params=payload )
 # response = requests.get( orbis_url )
 
 # print response.text
+# print response.url
 
-print get_bibids_from_xml( response.text )
+# store bibids
+bibid_list = get_bibids_from_xml( response.text )
+
+# next steps:
+# - how to get the next set of results? (Orbis fails somewhere between 500 and 1000 records requested, so we'll have to page through them)
+# - what to do after that? We'll have to iterate through the collection, building handle.net URIs to then scrape for location of publication
+# - how to handle bad data? Many of the subjects with "new haven" in them refer to mss in Beinecke rather than a text that is about New Haven.
