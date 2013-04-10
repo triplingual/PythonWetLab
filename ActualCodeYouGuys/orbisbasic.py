@@ -1,6 +1,7 @@
 from pattern.web import URL, Node, DOM
 import requests
 import re
+from geopy import geocoders
 
 def get_bibids_from_xml(xml_body):
     """ Returns a list of all pubmed ids for articles in an API response,
@@ -64,6 +65,7 @@ response = requests.get( orbis_url, params=payload )
 # For testing, gets just one record
 # response = requests.get( orbis_url )
 
+# show me what I've done
 # print response.text
 # print response.url
 
@@ -74,3 +76,9 @@ bibid_list = get_bibids_from_xml( response.text )
 # - how to get the next set of results? (Orbis fails somewhere between 500 and 1000 records requested, so we'll have to page through them)
 # - what to do after that? We'll have to iterate through the collection, building handle.net URIs to then scrape for location of publication
 # - how to handle bad data? Many of the subjects with "new haven" in them refer to mss in Beinecke rather than a text that is about New Haven.
+
+# once we get the place of publication
+pub_location = "Charleston, SC"
+gn = geocoders.GeoNames()
+place, (lat, lng) = gn.geocode( pub_location, exactly_one=False )[0]
+print "%s: %.5f, %.5f" % (place, lat, lng)
